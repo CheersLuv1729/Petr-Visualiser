@@ -3,21 +3,12 @@
 
 
 	const canvas : HTMLCanvasElement = document.getElementById("mainCanvas")! as HTMLCanvasElement;
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
-	
-
-
 
 	const ctx = canvas.getContext("2d")!;
+
 	
-	enum State
-	{
-		STATE_BEGIN = 0,
-		STATE_ADD_POINT = 1,
-		STATE_VIEW = 2,
-		STATE_DRAG_POINT = 3,
-	}
+
+	
 
 	class Pos
 	{
@@ -187,6 +178,10 @@
 	}
 
 	const render = () => {
+		
+		ctx.canvas.width = canvas.clientWidth;
+		ctx.canvas.height = canvas.clientHeight;
+
 		if(running)
 			window.requestAnimationFrame(render);
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -266,8 +261,6 @@
 				drawLine(currPoint.pos, nextPoint.pos, pointsCols[i+1], 3);
 
 			}
-			console.log(`Last: [${lastLayer.map(p => `{${p.pos.x} , ${p.pos.y}}`).join(", ")}]`)
-			console.log(`Curr: [${currentLayer.map(p => `{${p.pos.x} , ${p.pos.y}}`).join(", ")}]`)
 			lastLayer = currentLayer;
 
 

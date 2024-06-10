@@ -9,16 +9,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 (function () {
     var canvas = document.getElementById("mainCanvas");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
     var ctx = canvas.getContext("2d");
-    var State;
-    (function (State) {
-        State[State["STATE_BEGIN"] = 0] = "STATE_BEGIN";
-        State[State["STATE_ADD_POINT"] = 1] = "STATE_ADD_POINT";
-        State[State["STATE_VIEW"] = 2] = "STATE_VIEW";
-        State[State["STATE_DRAG_POINT"] = 3] = "STATE_DRAG_POINT";
-    })(State || (State = {}));
     var Pos = /** @class */ (function () {
         function Pos(x, y) {
             this.x = x;
@@ -132,6 +123,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
         }
     };
     var render = function () {
+        ctx.canvas.width = canvas.clientWidth;
+        ctx.canvas.height = canvas.clientHeight;
         if (running)
             window.requestAnimationFrame(render);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -156,7 +149,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
         for (var i = 0; i < points.length; i++) {
             var currPoint = points[i];
             var nextPoint = points[(i + 1) % points.length];
-            drawLine(currPoint.pos, nextPoint.pos, 'red', 2);
+            drawLine(currPoint.pos, nextPoint.pos, 'red', 3);
         }
         points.forEach(drawPoint);
         var lastLayer = __spreadArray([], points, true);
@@ -185,10 +178,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
             for (var j = 0; j < points.length; j++) {
                 var currPoint = currentLayer[j];
                 var nextPoint = currentLayer[(j + 1) % points.length];
-                drawLine(currPoint.pos, nextPoint.pos, pointsCols[i + 1], 2);
+                drawLine(currPoint.pos, nextPoint.pos, pointsCols[i + 1], 3);
             }
-            console.log("Last: [".concat(lastLayer.map(function (p) { return "{".concat(p.pos.x, " , ").concat(p.pos.y, "}"); }).join(", "), "]"));
-            console.log("Curr: [".concat(currentLayer.map(function (p) { return "{".concat(p.pos.x, " , ").concat(p.pos.y, "}"); }).join(", "), "]"));
             lastLayer = currentLayer;
         }
         drawLineQueue.reverse().forEach(function (_a) {
